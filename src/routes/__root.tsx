@@ -11,13 +11,19 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/app-sidebar";
+import { ResponsibleAIFooter } from "@/components/responsible-ai-footer";
+import { ActivityProvider } from "@/lib/activity-store";
+import { Toaster } from "@/components/ui/sonner";
+import { Separator } from "@/components/ui/separator";
 
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
+        <h1 className="text-7xl font-heading font-bold text-foreground">404</h1>
+        <h2 className="mt-4 text-xl font-semibold">Page not found</h2>
         <p className="mt-2 text-sm text-muted-foreground">
           The page you're looking for doesn't exist or has been moved.
         </p>
@@ -44,11 +50,9 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          This page didn't load
-        </h1>
+        <h1 className="text-xl font-heading font-semibold">This page didn't load</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
+          Something went wrong. You can try again or head back home.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
@@ -62,7 +66,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
           </button>
           <a
             href="/"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+            className="inline-flex items-center justify-center rounded-md border bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
           >
             Go home
           </a>
@@ -77,21 +81,31 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Draftsman — AI Workplace Productivity Assistant" },
+      {
+        name: "description",
+        content:
+          "Draft professional emails, summarize meeting notes, and plan tasks with AI. A calm workspace for focused productivity.",
+      },
+      { name: "author", content: "Draftsman" },
+      { property: "og:title", content: "Draftsman — AI Workplace Productivity Assistant" },
+      {
+        property: "og:description",
+        content:
+          "Draft emails, summarize meetings, and plan tasks with AI in one clean workspace.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
+      { rel: "stylesheet", href: appCss },
+      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: appCss,
+        href: "https://fonts.googleapis.com/css2?family=Epilogue:wght@300;400;500;600;700&family=Urbanist:wght@400;500;600;700;800&display=swap",
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
   }),
   shellComponent: RootShell,
@@ -119,8 +133,35 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <ActivityProvider>
+        <SidebarProvider>
+          <AppSidebar />
+          <SidebarInset className="bg-background">
+            <header className="h-14 flex items-center gap-3 border-b px-4 md:px-6 sticky top-0 z-10 bg-background/80 backdrop-blur">
+              <SidebarTrigger className="-ml-1" />
+              <Separator orientation="vertical" className="h-4" />
+              <span className="font-heading font-semibold text-sm tracking-tight">
+                Workspace
+              </span>
+              <div className="ml-auto flex items-center gap-3">
+                <span className="hidden sm:inline text-xs text-muted-foreground">
+                  Signed in as Aris Thorne
+                </span>
+                <div className="size-8 rounded-full bg-secondary grid place-items-center text-[11px] font-semibold">
+                  AT
+                </div>
+              </div>
+            </header>
+            <main className="flex-1">
+              <div className="max-w-7xl mx-auto p-6 md:p-8">
+                <Outlet />
+              </div>
+            </main>
+            <ResponsibleAIFooter />
+          </SidebarInset>
+        </SidebarProvider>
+        <Toaster />
+      </ActivityProvider>
     </QueryClientProvider>
   );
 }
