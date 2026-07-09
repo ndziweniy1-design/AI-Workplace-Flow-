@@ -7,6 +7,7 @@ import {
   History,
   Settings,
   LifeBuoy,
+  ShieldCheck,
 } from "lucide-react";
 
 import {
@@ -31,6 +32,7 @@ const primary = [
 
 const secondary = [
   { title: "History", url: "/history", icon: History },
+  { title: "Responsible AI", url: "/responsible-ai", icon: ShieldCheck },
   { title: "Settings", url: "/settings", icon: Settings },
   { title: "Help & Support", url: "/help", icon: LifeBuoy },
 ];

@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TasksRouteImport } from './routes/tasks'
 import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as ResponsibleAiRouteImport } from './routes/responsible-ai'
 import { Route as MeetingsRouteImport } from './routes/meetings'
 import { Route as HistoryRouteImport } from './routes/history'
 import { Route as HelpRouteImport } from './routes/help'
@@ -26,6 +27,11 @@ const TasksRoute = TasksRouteImport.update({
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResponsibleAiRoute = ResponsibleAiRouteImport.update({
+  id: '/responsible-ai',
+  path: '/responsible-ai',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MeetingsRoute = MeetingsRouteImport.update({
@@ -65,6 +71,7 @@ export interface FileRoutesByFullPath {
   '/help': typeof HelpRoute
   '/history': typeof HistoryRoute
   '/meetings': typeof MeetingsRoute
+  '/responsible-ai': typeof ResponsibleAiRoute
   '/settings': typeof SettingsRoute
   '/tasks': typeof TasksRoute
   '/api/generate': typeof ApiGenerateRoute
@@ -75,6 +82,7 @@ export interface FileRoutesByTo {
   '/help': typeof HelpRoute
   '/history': typeof HistoryRoute
   '/meetings': typeof MeetingsRoute
+  '/responsible-ai': typeof ResponsibleAiRoute
   '/settings': typeof SettingsRoute
   '/tasks': typeof TasksRoute
   '/api/generate': typeof ApiGenerateRoute
@@ -86,6 +94,7 @@ export interface FileRoutesById {
   '/help': typeof HelpRoute
   '/history': typeof HistoryRoute
   '/meetings': typeof MeetingsRoute
+  '/responsible-ai': typeof ResponsibleAiRoute
   '/settings': typeof SettingsRoute
   '/tasks': typeof TasksRoute
   '/api/generate': typeof ApiGenerateRoute
@@ -98,6 +107,7 @@ export interface FileRouteTypes {
     | '/help'
     | '/history'
     | '/meetings'
+    | '/responsible-ai'
     | '/settings'
     | '/tasks'
     | '/api/generate'
@@ -108,6 +118,7 @@ export interface FileRouteTypes {
     | '/help'
     | '/history'
     | '/meetings'
+    | '/responsible-ai'
     | '/settings'
     | '/tasks'
     | '/api/generate'
@@ -118,6 +129,7 @@ export interface FileRouteTypes {
     | '/help'
     | '/history'
     | '/meetings'
+    | '/responsible-ai'
     | '/settings'
     | '/tasks'
     | '/api/generate'
@@ -129,6 +141,7 @@ export interface RootRouteChildren {
   HelpRoute: typeof HelpRoute
   HistoryRoute: typeof HistoryRoute
   MeetingsRoute: typeof MeetingsRoute
+  ResponsibleAiRoute: typeof ResponsibleAiRoute
   SettingsRoute: typeof SettingsRoute
   TasksRoute: typeof TasksRoute
   ApiGenerateRoute: typeof ApiGenerateRoute
@@ -148,6 +161,13 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/responsible-ai': {
+      id: '/responsible-ai'
+      path: '/responsible-ai'
+      fullPath: '/responsible-ai'
+      preLoaderRoute: typeof ResponsibleAiRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/meetings': {
@@ -201,6 +221,7 @@ const rootRouteChildren: RootRouteChildren = {
   HelpRoute: HelpRoute,
   HistoryRoute: HistoryRoute,
   MeetingsRoute: MeetingsRoute,
+  ResponsibleAiRoute: ResponsibleAiRoute,
   SettingsRoute: SettingsRoute,
   TasksRoute: TasksRoute,
   ApiGenerateRoute: ApiGenerateRoute,
@@ -208,13 +229,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
