@@ -81,21 +81,25 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Draftsman — AI Workplace Productivity Assistant" },
+      { title: "Dashboard — Draftsman" },
       {
         name: "description",
         content:
-          "Draft professional emails, summarize meeting notes, and plan tasks with AI. A calm workspace for focused productivity.",
+          "Your AI productivity command center. Draft emails, summarize meetings, and plan tasks in one place.",
       },
       { name: "author", content: "Draftsman" },
-      { property: "og:title", content: "Draftsman — AI Workplace Productivity Assistant" },
+      { property: "og:title", content: "Dashboard — Draftsman" },
       {
         property: "og:description",
         content:
-          "Draft emails, summarize meetings, and plan tasks with AI in one clean workspace.",
+          "Your AI productivity command center. Draft emails, summarize meetings, and plan tasks in one place.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Dashboard — Draftsman" },
+      { name: "twitter:description", content: "Your AI productivity command center. Draft emails, summarize meetings, and plan tasks in one place." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/68e11c51-b924-422f-8a47-e1d5a2238f2c/id-preview-57b4675f--5bf5d0ec-aab0-4918-84c2-56e9e0f02c00.lovable.app-1783684449020.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/68e11c51-b924-422f-8a47-e1d5a2238f2c/id-preview-57b4675f--5bf5d0ec-aab0-4918-84c2-56e9e0f02c00.lovable.app-1783684449020.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
